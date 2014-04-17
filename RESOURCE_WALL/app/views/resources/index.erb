@@ -1,0 +1,26 @@
+<h1> Resources </h1>
+
+
+<% @resources.each do |resource| %>
+  
+
+  <div>
+  <h3>
+  <%= resource.title %></a>
+  </h3>
+  </div>
+  
+
+  <div>
+  <h3>
+    <%= resource.topic %>
+  </h3>
+  </div>
+
+
+  <div>
+  <a href="<%= resource.url %>">Read here</a>
+  </div>
+  <% end %>
+
+  <a href="/resources/new">Post a new resource</a>

@@ -1,0 +1,35 @@
+<% if @resource && @resource.errors.any? %>
+<div>
+  <p>
+    That's a bogus resource! Post something REAL.
+  </P>
+
+  <ul>
+    <% @resource.errors.full_messages.each do |resource| %>
+      <li><%= resource %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<form method="post" action="/resources">
+  <div>
+    <label>Title:</label>
+    <input type="text" name="title", placeholder="Describe this resource">
+  </div>
+
+<div>
+    <label>Topic:</label>
+    <input type="text" name="topic", placeholder="What is this resource about?">
+  </div>
+
+  <div>
+    <label>URL:</label>
+    <input type="text" name="url", placeholder="copy and paste a link to your resource here.">
+  </div>
+
+
+<div>
+  <input type="submit" value"Be a Pal">
+  </div>
+</form>

@@ -1,0 +1,89 @@
+<h1><%= @song.song_title %></h1>
+<a href="/songs">Back to all songs</a>
+
+<p>
+  <h3>Author: <%= @song.author %></h3>
+</p>
+
+<p>
+  <%= @song.song_title  %>&nbsp;&nbsp;<%= @song.url %>
+</p>
+
+<hr/>
+<h2>Other songs by this artist</h2>
+<% @songs.each do |song| %>
+  <div class="song">
+    <h3>
+      <a href="/songs/<%=song.id %>"><small>(by: <%= song.author %>)</small>
+      </a>
+    </h3>
+
+    <h4>
+      <a href="/songs/<%= song.id %>"></a>           
+      <strong><%= song.song_title %></strong>&nbsp;&nbsp; <a href="http://<%= song.url %>"> <%= song.url %> </a>
+
+    <small><%= song.created_at %></small>
+    </h4> 
+  </div>
+<% end %>
+
+<hr/>
+<h2>Reviews</h2>
+
+<strong>Add your Review</strong>
+
+<% @ratings.each do |rating| %>  
+<div class="rating">  
+  Stars : <%= rating.stars %>
+  <div>
+  <% 5.times do |x| %>
+    <input
+      type="radio"
+      name="stars"
+      class="star"
+      <% if rating.stars == x %> checked="checked" 
+      <% else %>
+      disabled="disabled"
+      value="<%= x %>"
+      <% end %>
+      />
+  <% end %>
+  </div>
+  <div>
+    REVIEW: <%= rating.review %>
+  </div>
+  <%= rating.user.email if rating.user %>
+</div>
+<% end %>
+
+<% unless current_user.already_rated?(@song)%>
+<form action="/ratings" method="post">
+  <input type="hidden" value="<%= @song.id %>" name="song_id">
+  <% 5.times do |x| %>
+    <input
+      type="radio"
+      name="stars"
+      class="star"
+      <% if @song.ratings == x %> checked="checked" <% end %>
+      value="<%= x %>"
+      />
+  <% end %>
+
+  <textarea rows="10" cols="50" name="review">
+    <%= @rating.review %>
+  </textarea>
+
+  <input type="submit" value="post your rating" class = "btn btn-primary">
+</form>
+<%else%>
+  <form action="/delete_ratings" method="post">
+  <input type="hidden" value="<%= @song.id %>" name="song_id">
+  <input type="submit" value="remove your rating" class = "btn btn-primary">
+  </form>      
+<% end %>
+...
+
+<hr/>
+<a href="/songs">Back to All Songs</a>
+
+

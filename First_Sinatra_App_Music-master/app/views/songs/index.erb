@@ -1,0 +1,32 @@
+<% @songs.each do |song| %>
+  <div class="song row" style="outline: 1px solid red; margin-bottom: 1em;">
+    <div class="col-md-2">
+      <img data-src="holder.js/140x140" class="img-rounded" />
+    </div>
+    <div class="col-md-10">
+      <h3>
+        <a href="/songs/<%= song.id %>"><%= song.song_title %></a>
+        <small>by: <%= song.author %></small>
+      </h3>
+          
+      <% unless current_user.already_voted?(song) %>
+        <form action="/upvote" method="post">
+          <input type="hidden" value="<%= song.id %>" name="song_id">
+          <button class="btn btn-default btn-success" type="submit">
+            <span class="glyphicon glyphicon-arrow-up"></span> Upvote
+          </button>
+      <%else%>
+        <form action="/downvote" method="post">
+          <input type="hidden" value="<%= song.id %>" name="song_id">
+          <button class="btn btn-default btn-danger" type="submit">
+            <span class="glyphicon glyphicon-arrow-down"></span> Downvote
+          </button>
+      <% end %>
+        <a class="btn btn-default btn-warning" href="<%= song.url %>"><span class="glyphicon glyphicon-play"></span> Listen</a>
+      </form>
+      <small><%= song.created_at %></small>
+    </div>
+  </div>
+<% end %>
+
+<a href="/songs/new">Post another song!</a>
